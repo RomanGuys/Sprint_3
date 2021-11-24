@@ -1,6 +1,8 @@
 import io.qameta.allure.junit4.DisplayName;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
+import org.slf4j.Logger;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -40,7 +42,7 @@ public class CreateCourierTests {
     }
 
     @Test
-    @DisplayName("Негативка создания курьера без обязательного поля")
+    @DisplayName("Негативка создания курьера без обязательного поля(Логин)")
     public void createCourierWORequiredFieldLoginTest(){
         ArrayList<String> data = new ArrayList<>(Arrays.asList("", "glop", "bandit"));
         courierUsingPostMethods.courierAdd(data);
@@ -52,10 +54,24 @@ public class CreateCourierTests {
     }
 
     @Test
-    @DisplayName("Негативка создания курьера без обязательного поля")
+    @DisplayName("Негативка создания курьера без обязательного поля(Пароль)")
     public void createCourierWORequiredFieldPasswordTest(){
         String randomLogin = RandomStringUtils.randomAlphabetic(10);
         ArrayList<String> data = new ArrayList<>(Arrays.asList(randomLogin, "", "bandit"));
+        courierUsingPostMethods.courierAdd(data);
+        courierUsingPostMethods.courierAddResponse.then()
+                .assertThat()
+                .statusCode(400)
+                .and()
+                .body("message", equalTo("Недостаточно данных для создания учетной записи"));
+    }
+
+    @Test
+    @DisplayName("Негативка создания курьера без обязательного поля(Имя)")
+    public void createCourierWORequiredFieldNameTest(){
+        String randomLogin = RandomStringUtils.randomAlphabetic(10);
+        String randomPass = RandomStringUtils.randomAlphabetic(10);
+        ArrayList<String> data = new ArrayList<>(Arrays.asList(randomLogin, randomPass, ""));
         courierUsingPostMethods.courierAdd(data);
         courierUsingPostMethods.courierAddResponse.then()
                 .assertThat()
