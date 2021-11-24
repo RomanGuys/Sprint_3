@@ -1,3 +1,4 @@
+import io.qameta.allure.junit4.DisplayName;
 import org.junit.Test;
 import static org.hamcrest.CoreMatchers.notNullValue;
 
@@ -10,6 +11,7 @@ public class GetOrdersListTests {
     GetOrderByTrackTestMethods getOrderByTrackTestMethods = new GetOrderByTrackTestMethods();
 
     @Test
+    @DisplayName("Позитивный тест получения списка заказов")
     public void positiveGetOrdersListTest(){
         createOrderTestMethods.createOrder(createOrderTestMethods.defaultOrderData);
         int orderId = getOrderByTrackTestMethods.getOrderIdByTrack(createOrderTestMethods.createOrderResponse.body().path("track"));

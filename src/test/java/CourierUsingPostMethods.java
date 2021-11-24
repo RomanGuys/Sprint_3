@@ -1,8 +1,4 @@
-import io.qameta.allure.Allure;
-import io.restassured.RestAssured;
-import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
-import org.apache.commons.lang3.RandomStringUtils;
 import java.util.ArrayList;
 import static io.restassured.RestAssured.*;
 

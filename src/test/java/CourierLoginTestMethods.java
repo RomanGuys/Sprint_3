@@ -1,7 +1,5 @@
 import io.restassured.response.Response;
-
 import java.util.ArrayList;
-
 import static io.restassured.RestAssured.given;
 
 public class CourierLoginTestMethods {

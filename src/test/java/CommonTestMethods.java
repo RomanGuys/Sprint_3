@@ -1,4 +1,4 @@
-import io.restassured.RestAssured;
+import io.qameta.allure.junit4.DisplayName;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -9,6 +9,7 @@ public class CommonTestMethods {
 
     private String baseURI = "https://qa-scooter.praktikum-services.ru/api/v1/courier";
 
+    @DisplayName("Регистрация рандомного курьера")
     public ArrayList<String> registerNewCourierAndReturnLoginPassword(){
 
         String courierLogin = RandomStringUtils.randomAlphabetic(10);
@@ -39,6 +40,7 @@ public class CommonTestMethods {
 
     }
 
+    @DisplayName("Получение айди курьера")
     public int getCourierId(ArrayList<String> loginPass){
         int courierId = 0;
         String login = loginPass.get(0);
