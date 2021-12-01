@@ -36,7 +36,7 @@ public class Order {
             final String phone = "+7 800 355 35 35";
             final int rentTime = rand.nextInt(2);
             final String deliveryDate = "2020-06-06";
-            final String comment = faker.howIMetYourMother().quote();
+            final String comment = faker.howIMetYourMother().catchPhrase();
             final String[] color = {"BLACK", "GRAY"};
             order = new Order(firstName, lastName, address, metroStation, phone, rentTime, deliveryDate, comment, color);
         }
@@ -48,7 +48,7 @@ public class Order {
             final String phone = "+7 800 355 35 35";
             final int rentTime = rand.nextInt(2);
             final String deliveryDate = "2020-06-06";
-            final String comment = faker.howIMetYourMother().quote();
+            final String comment = faker.howIMetYourMother().catchPhrase();
             final String[] color = {"BLACK"};
             order = new Order(firstName, lastName, address, metroStation, phone, rentTime, deliveryDate, comment, color);
         }
@@ -60,7 +60,7 @@ public class Order {
             final String phone = "+7 800 355 35 35";
             final int rentTime = rand.nextInt(2);
             final String deliveryDate = "2020-06-06";
-            final String comment = faker.howIMetYourMother().quote();
+            final String comment = faker.howIMetYourMother().catchPhrase();
             final String[] color = {"GRAY"};
             order = new Order(firstName, lastName, address, metroStation, phone, rentTime, deliveryDate, comment, color);
         }
@@ -72,7 +72,7 @@ public class Order {
             final String phone = "+7 800 355 35 35";
             final int rentTime = rand.nextInt(2);
             final String deliveryDate = "2020-06-06";
-            final String comment = faker.howIMetYourMother().quote();
+            final String comment = faker.howIMetYourMother().catchPhrase();
             final String[] color = null;
             order = new Order(firstName, lastName, address, metroStation, phone, rentTime, deliveryDate, comment, color);
         }

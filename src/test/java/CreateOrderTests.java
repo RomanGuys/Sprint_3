@@ -38,8 +38,8 @@ public class CreateOrderTests {
     @DisplayName("Позитивные тесты создания заказа")
     public void createOrderPositiveTest() {
         Order order = Order.getRandomOrder(color);
-        createOrderTestMethods.createOrder(order);
-        createOrderTestMethods.createOrderResponse.then()
+        createOrderTestMethods.createOrder(order)
+                .then()
                 .assertThat()
                 .statusCode(201)
                 .and()

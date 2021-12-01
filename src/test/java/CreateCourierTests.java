@@ -20,8 +20,8 @@ public class CreateCourierTests {
     @DisplayName("Позивитные проверки создания курьера")
     public void createCourierPositiveTest(){
         Courier courier = Courier.getRandom();
-        courierUsingPostMethods.courierAdd(courier);
-        courierUsingPostMethods.courierAddResponse.then()
+        courierUsingPostMethods.courierAdd(courier)
+                .then()
                 .assertThat()
                 .statusCode(201)
                 .and()
@@ -34,8 +34,8 @@ public class CreateCourierTests {
     public void createCourierDuplicateLoginTest(){
         Courier courier = Courier.getRandom();
         courierUsingPostMethods.courierAdd(courier);
-        courierUsingPostMethods.courierAdd(courier);
-        courierUsingPostMethods.courierAddResponse.then()
+        courierUsingPostMethods.courierAdd(courier).
+                then()
                 .assertThat()
                 .statusCode(409)
                 .and()
@@ -48,8 +48,8 @@ public class CreateCourierTests {
     @DisplayName("Негативка создания курьера без обязательного поля(Логин)")
     public void createCourierWORequiredFieldLoginTest(){
         Courier courier = Courier.getRandomWOLogin();
-        courierUsingPostMethods.courierAdd(courier);
-        courierUsingPostMethods.courierAddResponse.then()
+        courierUsingPostMethods.courierAdd(courier)
+                .then()
                 .assertThat()
                 .statusCode(400)
                 .and()
@@ -60,8 +60,8 @@ public class CreateCourierTests {
     @DisplayName("Негативка создания курьера без обязательного поля(Пароль)")
     public void createCourierWORequiredFieldPasswordTest(){
         Courier courier = Courier.getRandomWOPass();
-        courierUsingPostMethods.courierAdd(courier);
-        courierUsingPostMethods.courierAddResponse.then()
+        courierUsingPostMethods.courierAdd(courier)
+                .then()
                 .assertThat()
                 .statusCode(400)
                 .and()
@@ -72,8 +72,8 @@ public class CreateCourierTests {
     @DisplayName("Негативка создания курьера без обязательного поля(Имя)")
     public void createCourierWORequiredFieldNameTest(){
         Courier courier = Courier.getRandomWOName();
-        courierUsingPostMethods.courierAdd(courier);
-        courierUsingPostMethods.courierAddResponse.then()
+        courierUsingPostMethods.courierAdd(courier)
+                .then()
                 .assertThat()
                 .statusCode(400)
                 .and()

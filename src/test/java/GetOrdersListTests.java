@@ -29,13 +29,12 @@ public class GetOrdersListTests {
     public void positiveGetOrdersListTest() {
         Courier courier = Courier.getRandom();
         Order order = Order.getRandomOrder("ALL");
-        createOrderClient.createOrder(order);
-        int orderId = getOrderByTrackClient.getOrderIdByTrack(createOrderClient.createOrderResponse.body().path("track"));
+        int orderId = getOrderByTrackClient.getOrderIdByTrack(createOrderClient.createOrder(order).body().path("track"));
         courierCreateClient.courierAdd(courier);
         int courierId = courierLoginClient.getCourierId(CourierCredentials.from(courier));
         acceptOrderTestMethods.acceptOrder(orderId, courierId);
-        getOrderClient.getOrders(courierId);
-        getOrderClient.getOrderResponse.then()
+        getOrderClient.getOrders(courierId)
+                .then()
                 .assertThat()
                 .statusCode(200)
                 .body("orders", notNullValue());

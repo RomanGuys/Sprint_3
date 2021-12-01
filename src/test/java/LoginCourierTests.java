@@ -1,4 +1,5 @@
 import io.qameta.allure.junit4.DisplayName;
+import io.restassured.response.Response;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,13 +22,13 @@ public class LoginCourierTests {
     public void courierLoginPositiveTest(){
         Courier courier = Courier.getRandom();
         courierCreateClient.courierAdd(courier);
-        courierLoginClient.courierLogin(CourierCredentials.from(courier));
-        courierLoginClient.courierLoginResponse.then()
+        Response loginResponse = courierLoginClient.courierLogin(CourierCredentials.from(courier));
+        loginResponse.then()
                 .assertThat()
                 .statusCode(200)
                 .and()
                 .body("id", notNullValue());
-        int courierId = courierLoginClient.courierLoginResponse.path("id");
+        int courierId = loginResponse.path("id");
         courierDeleteClient.deleteCourier(courierId);
 
     }
@@ -36,8 +37,8 @@ public class LoginCourierTests {
     @DisplayName("Негативный тест без обязательного поля")
     public void courierLoginNegativeWOLogin(){
         CourierCredentials courierCredentials = new CourierCredentials(null, RandomStringUtils.randomAlphabetic(10));
-        courierLoginClient.courierLogin(courierCredentials);
-        courierLoginClient.courierLoginResponse.then()
+        courierLoginClient.courierLogin(courierCredentials)
+                .then()
                 .assertThat()
                 .statusCode(400)
                 .and()
@@ -50,8 +51,8 @@ public class LoginCourierTests {
         Courier courier = Courier.getRandom();
         courierCreateClient.courierAdd(courier);
         courier.login = RandomStringUtils.randomAlphabetic(10);
-        courierLoginClient.courierLogin(CourierCredentials.from(courier));
-        courierLoginClient.courierLoginResponse.then()
+        courierLoginClient.courierLogin(CourierCredentials.from(courier))
+                .then()
                 .assertThat()
                 .statusCode(404)
                 .and()
@@ -62,8 +63,8 @@ public class LoginCourierTests {
     @DisplayName("Не существующий курьер")
         public void courierLoginUnexistNegativeTest(){
         Courier courier = Courier.getRandom();
-        courierLoginClient.courierLogin(CourierCredentials.from(courier));
-        courierLoginClient.courierLoginResponse.then()
+        courierLoginClient.courierLogin(CourierCredentials.from(courier))
+                .then()
                 .assertThat()
                 .statusCode(404)
                 .and()

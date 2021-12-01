@@ -5,10 +5,10 @@ import static io.restassured.RestAssured.given;
 public class CreateOrderClient extends ApiClient {
 
     String baseURI = "api/v1/orders";
-    Response createOrderResponse;
+//    Response createOrderResponse;
 
     @DisplayName("Создание заказа")
-    public void createOrder(Order order){
+    public Response createOrder(Order order){
         Response response = given()
 
                 .spec(getBaseSpec())
@@ -17,6 +17,6 @@ public class CreateOrderClient extends ApiClient {
                 .when()
                 .post(baseURI);
         System.out.println(response.body().asString());
-        createOrderResponse = response;
+        return response;
     }
 }

@@ -5,18 +5,16 @@ import static io.restassured.RestAssured.given;
 
 public class CourierLoginClient extends ApiClient {
     private String baseURI = "api/v1/courier/login";
-    Response courierLoginResponse;
+//    Response courierLoginResponse;
 
     @DisplayName("Логин курьера")
-    public void courierLogin(CourierCredentials courierCredentials){
-        Response response = given()
+    public Response courierLogin(CourierCredentials courierCredentials){
+        return given()
                 .spec(getBaseSpec())
                 .and()
                 .body(courierCredentials)
                 .when()
                 .post(baseURI);
-
-        courierLoginResponse = response;
     }
 
     @DisplayName("Получение айди курьера")
