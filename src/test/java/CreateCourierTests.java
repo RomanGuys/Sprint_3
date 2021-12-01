@@ -1,11 +1,6 @@
 import io.qameta.allure.junit4.DisplayName;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import static org.hamcrest.CoreMatchers.equalTo;
 
 
