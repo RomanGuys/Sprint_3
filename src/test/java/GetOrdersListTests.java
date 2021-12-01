@@ -1,28 +1,51 @@
 import io.qameta.allure.junit4.DisplayName;
+import org.junit.Before;
 import org.junit.Test;
 import static org.hamcrest.CoreMatchers.notNullValue;
 
 public class GetOrdersListTests {
 
-    AcceptOrderClient acceptOrderTestMethods = new AcceptOrderClient();
-    CourierLoginClient courierLoginClient = new CourierLoginClient();
-    CreateOrderClient createOrderClient = new CreateOrderClient();
-    GetOrderClient getOrderClient = new GetOrderClient();
-    GetOrderByTrackClient getOrderByTrackClient = new GetOrderByTrackClient();
-    CourierCreateClient courierCreateClient = new CourierCreateClient();
+    AcceptOrderClient acceptOrderTestMethods;
+    CourierLoginClient courierLoginClient;
+    CreateOrderClient createOrderClient;
+    GetOrderClient getOrderClient;
+    GetOrderByTrackClient getOrderByTrackClient;
+    CourierCreateClient courierCreateClient;
+    CancelOrderClient cancelOrderClient;
+
+    @Before
+    public void setUp(){
+        acceptOrderTestMethods = new AcceptOrderClient();
+        courierLoginClient = new CourierLoginClient();
+        createOrderClient = new CreateOrderClient();
+        getOrderClient = new GetOrderClient();
+        getOrderByTrackClient = new GetOrderByTrackClient();
+        courierCreateClient = new CourierCreateClient();
+        cancelOrderClient = new CancelOrderClient();
+    }
 
     @Test
     @DisplayName("Позитивный тест получения списка заказов")
-    public void positiveGetOrdersListTest(){
+    public void positiveGetOrdersListTest() {
         Courier courier = Courier.getRandom();
-        createOrderClient.createOrder(createOrderClient.defaultOrderData);
+        Order order = Order.getRandomOrder("ALL");
+        createOrderClient.createOrder(order);
         int orderId = getOrderByTrackClient.getOrderIdByTrack(createOrderClient.createOrderResponse.body().path("track"));
-        int courierId = courierLoginClient.getCourierId(courier);
+        courierCreateClient.courierAdd(courier);
+        int courierId = courierLoginClient.getCourierId(CourierCredentials.from(courier));
         acceptOrderTestMethods.acceptOrder(orderId, courierId);
         getOrderClient.getOrders(courierId);
         getOrderClient.getOrderResponse.then()
                 .assertThat()
                 .statusCode(200)
                 .body("orders", notNullValue());
+
+//        Закомменчено, так как метод отмены не работает (отменяем созданные заказы)
+//            cancelOrderClient.cancelOrder(createOrderClient.createOrderResponse.path("track"));
+//            cancelOrderClient.cancelOrderResponse.then()
+//                    .assertThat()
+//                    .statusCode(200);
     }
+
 }
+

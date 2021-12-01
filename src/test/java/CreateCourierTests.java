@@ -1,5 +1,6 @@
 import io.qameta.allure.junit4.DisplayName;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ public class CreateCourierTests {
                 .statusCode(201)
                 .and()
                 .body("ok", equalTo(true));
-        courierDeleteClient.deleteCourier(courierLoginClient.getCourierId(courier));
+        courierDeleteClient.deleteCourier(courierLoginClient.getCourierId(CourierCredentials.from(courier)));
     }
 
     @Test
@@ -44,6 +45,7 @@ public class CreateCourierTests {
                 .statusCode(409)
                 .and()
                 .body("message", equalTo("Этот логин уже используется. Попробуйте другой."));
+        courierDeleteClient.deleteCourier(courierLoginClient.getCourierId(CourierCredentials.from(courier)));
 
     }
 
@@ -51,7 +53,6 @@ public class CreateCourierTests {
     @DisplayName("Негативка создания курьера без обязательного поля(Логин)")
     public void createCourierWORequiredFieldLoginTest(){
         Courier courier = Courier.getRandomWOLogin();
-//        ArrayList<String> data = new ArrayList<>(Arrays.asList("", "glop", "bandit"));
         courierUsingPostMethods.courierAdd(courier);
         courierUsingPostMethods.courierAddResponse.then()
                 .assertThat()
@@ -64,8 +65,6 @@ public class CreateCourierTests {
     @DisplayName("Негативка создания курьера без обязательного поля(Пароль)")
     public void createCourierWORequiredFieldPasswordTest(){
         Courier courier = Courier.getRandomWOPass();
-//        String randomLogin = RandomStringUtils.randomAlphabetic(10);
-//        ArrayList<String> data = new ArrayList<>(Arrays.asList(randomLogin, "", "bandit"));
         courierUsingPostMethods.courierAdd(courier);
         courierUsingPostMethods.courierAddResponse.then()
                 .assertThat()
@@ -77,9 +76,6 @@ public class CreateCourierTests {
     @Test
     @DisplayName("Негативка создания курьера без обязательного поля(Имя)")
     public void createCourierWORequiredFieldNameTest(){
-//        String randomLogin = RandomStringUtils.randomAlphabetic(10);
-//        String randomPass = RandomStringUtils.randomAlphabetic(10);
-//        ArrayList<String> data = new ArrayList<>(Arrays.asList(randomLogin, randomPass, ""));
         Courier courier = Courier.getRandomWOName();
         courierUsingPostMethods.courierAdd(courier);
         courierUsingPostMethods.courierAddResponse.then()

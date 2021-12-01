@@ -1,4 +1,5 @@
 import io.qameta.allure.junit4.DisplayName;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -8,97 +9,45 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 public class CreateOrderTests {
 
 
-    private final String orderData;
+    private final String color;
 
-    CreateOrderClient createOrderTestMethods = new CreateOrderClient();
-    CancelOrderClient cancelOrderTestMethods = new CancelOrderClient();
+    CreateOrderClient createOrderTestMethods;
+    CancelOrderClient cancelOrderTestMethods;
 
-    public CreateOrderTests(String orderData) {
-        this.orderData = orderData;
+    public CreateOrderTests(String color) {
+        this.color = color;
+    }
+
+    @Before
+    public void setUp() {
+        createOrderTestMethods = new CreateOrderClient();
+        cancelOrderTestMethods = new CancelOrderClient();
     }
 
     @Parameterized.Parameters
     public static Object[][] getOrderData() {
-        return new Object[][] {
-                {orderBodyTwoColors},
-                {orderBodyGrayColor},
-                {orderBodyBlackColor},
-                {orderBodyWOColors},
+        return new Object[][]{
+                {"BLACK"},
+                {"GRAY"},
+                {"ALL"},
+                {"NONE"},
         };
     }
 
     @Test
     @DisplayName("Позитивные тесты создания заказа")
-        public void createOrderPositiveTest () {
-            createOrderTestMethods.createOrder(orderData);
-            createOrderTestMethods.createOrderResponse.then()
-                    .assertThat()
-                    .statusCode(201)
-                    .and()
-                    .body("track", notNullValue());
-
-            //Закомменчено, так как метод отмены не работает (отменяем созданные заказы)
-//            cancelOrderTestMethods.cancelOrder(createOrderTestMethods.createOrderResponse.path("track"));
-//            cancelOrderTestMethods.cancelOrderResponse.then()
+    public void createOrderPositiveTest() {
+        Order order = Order.getRandomOrder(color);
+        createOrderTestMethods.createOrder(order);
+        createOrderTestMethods.createOrderResponse.then()
+                .assertThat()
+                .statusCode(201)
+                .and()
+                .body("track", notNullValue());
+//        Закомменчено, так как метод отмены не работает (отменяем созданные заказы)
+//            cancelOrderClient.cancelOrder(createOrderClient.createOrderResponse.path("track"));
+//            cancelOrderClient.cancelOrderResponse.then()
 //                    .assertThat()
 //                    .statusCode(200);
-        }
-
-
-    private static String orderBodyTwoColors = "{\n" +
-            "    \"firstName\": \"Naruto\",\n" +
-            "    \"lastName\": \"Uchiha\",\n" +
-            "    \"address\": \"Konoha, 142 apt.\",\n" +
-            "    \"metroStation\": 4,\n" +
-            "    \"phone\": \"+7 800 355 35 35\",\n" +
-            "    \"rentTime\": 5,\n" +
-            "    \"deliveryDate\": \"2020-06-06\",\n" +
-            "    \"comment\": \"Saske, come back to Konoha\",\n" +
-            "    \"color\": [\n" +
-            "        \"BLACK\", \"GRAY\"\n" +
-            "    ]\n" +
-            "}";
-
-    private static String orderBodyBlackColor = "{\n" +
-            "    \"firstName\": \"Naruto\",\n" +
-            "    \"lastName\": \"Uchiha\",\n" +
-            "    \"address\": \"Konoha, 142 apt.\",\n" +
-            "    \"metroStation\": 4,\n" +
-            "    \"phone\": \"+7 800 355 35 35\",\n" +
-            "    \"rentTime\": 5,\n" +
-            "    \"deliveryDate\": \"2020-06-06\",\n" +
-            "    \"comment\": \"Saske, come back to Konoha\",\n" +
-            "    \"color\": [\n" +
-            "        \"BLACK\"\n" +
-            "    ]\n" +
-            "}";
-
-    private static String orderBodyGrayColor = "{\n" +
-            "    \"firstName\": \"Naruto\",\n" +
-            "    \"lastName\": \"Uchiha\",\n" +
-            "    \"address\": \"Konoha, 142 apt.\",\n" +
-            "    \"metroStation\": 4,\n" +
-            "    \"phone\": \"+7 800 355 35 35\",\n" +
-            "    \"rentTime\": 5,\n" +
-            "    \"deliveryDate\": \"2020-06-06\",\n" +
-            "    \"comment\": \"Saske, come back to Konoha\",\n" +
-            "    \"color\": [\n" +
-            "        \"GRAY\"\n" +
-            "    ]\n" +
-            "}";
-
-    private static String orderBodyWOColors = "{\n" +
-            "    \"firstName\": \"Naruto\",\n" +
-            "    \"lastName\": \"Uchiha\",\n" +
-            "    \"address\": \"Konoha, 142 apt.\",\n" +
-            "    \"metroStation\": 4,\n" +
-            "    \"phone\": \"+7 800 355 35 35\",\n" +
-            "    \"rentTime\": 5,\n" +
-            "    \"deliveryDate\": \"2020-06-06\",\n" +
-            "    \"comment\": \"Saske, come back to Konoha\"\n" +
-            "}";
-
-
+    }
 }
-
-

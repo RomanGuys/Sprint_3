@@ -9,9 +9,6 @@ public class CourierLoginClient extends ApiClient {
     Response courierLoginResponse;
 
     public void courierLogin(CourierCredentials courierCredentials){
-//        String courierLogin = loginData.get(0);
-//        String courierPassword = loginData.get(1);
-//        String body = "{\"login\" :\"" + courierLogin + "\" ,\"password\" : \"" + courierPassword + "\"}";
         Response response = given()
                 .spec(getBaseSpec())
                 .and()
@@ -23,17 +20,17 @@ public class CourierLoginClient extends ApiClient {
     }
 
     @DisplayName("Получение айди курьера")
-    public int getCourierId(Courier courier){
+    public int getCourierId(CourierCredentials courierCredentials){
         int courierId = 0;
-        String login = courier.login;
-        String pass = courier.password;
-        String loginRequestBody = "{\"login\":\"" + login + "\","
-                + "\"password\":\"" + pass + "\"}";
+//        String login = courier.login;
+//        String pass = courier.password;
+//        String loginRequestBody = "{\"login\":\"" + login + "\","
+//                + "\"password\":\"" + pass + "\"}";
 
         Response response = given()
                 .spec(getBaseSpec())
                 .and()
-                .body(loginRequestBody)
+                .body(courierCredentials)
                 .when()
                 .post(baseURI);
 
