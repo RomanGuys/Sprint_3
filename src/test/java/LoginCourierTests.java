@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.hamcrest.Matchers.*;
 
+@DisplayName("Тесты на логин курьера")
 public class LoginCourierTests {
     CourierDeleteClient courierDeleteClient;
     CourierLoginClient courierLoginClient;

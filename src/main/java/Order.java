@@ -1,4 +1,7 @@
 import com.github.javafaker.Faker;
+import org.apache.commons.lang3.RandomStringUtils;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Random;
 
 public class Order {
@@ -28,51 +31,27 @@ public class Order {
         Faker faker = new Faker();
         Random rand = new Random();
         Order order = null;
+        final String firstName = faker.pokemon().name();
+        final String lastName = faker.pokemon().name();
+        final String address = faker.harryPotter().location();
+        final int metroStation = rand.nextInt(10)+1;
+        final String phone = "+7" + RandomStringUtils.randomNumeric(9);
+        final int rentTime = rand.nextInt(10)+1;
+        final String deliveryDate = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+        final String comment = faker.howIMetYourMother().catchPhrase();
         if(whatColor.equals("ALL")) {
-            final String firstName = faker.pokemon().name();
-            final String lastName = faker.pokemon().name();
-            final String address = faker.harryPotter().location();
-            final int metroStation = rand.nextInt(2);
-            final String phone = "+7 800 355 35 35";
-            final int rentTime = rand.nextInt(2);
-            final String deliveryDate = "2020-06-06";
-            final String comment = faker.howIMetYourMother().catchPhrase();
             final String[] color = {"BLACK", "GRAY"};
             order = new Order(firstName, lastName, address, metroStation, phone, rentTime, deliveryDate, comment, color);
         }
          else if(whatColor.equals("BLACK")){
-            final String firstName = faker.pokemon().name();
-            final String lastName = faker.pokemon().name();
-            final String address = faker.harryPotter().location();
-            final int metroStation = rand.nextInt(2);
-            final String phone = "+7 800 355 35 35";
-            final int rentTime = rand.nextInt(2);
-            final String deliveryDate = "2020-06-06";
-            final String comment = faker.howIMetYourMother().catchPhrase();
             final String[] color = {"BLACK"};
             order = new Order(firstName, lastName, address, metroStation, phone, rentTime, deliveryDate, comment, color);
         }
         else if(whatColor.equals("GRAY")){
-            final String firstName = faker.pokemon().name();
-            final String lastName = faker.pokemon().name();
-            final String address = faker.harryPotter().location();
-            final int metroStation = rand.nextInt(2);
-            final String phone = "+7 800 355 35 35";
-            final int rentTime = rand.nextInt(2);
-            final String deliveryDate = "2020-06-06";
-            final String comment = faker.howIMetYourMother().catchPhrase();
             final String[] color = {"GRAY"};
             order = new Order(firstName, lastName, address, metroStation, phone, rentTime, deliveryDate, comment, color);
         }
         else if(whatColor.equals("NONE")){
-            final String firstName = faker.pokemon().name();
-            final String lastName = faker.pokemon().name();
-            final String address = faker.harryPotter().location();
-            final int metroStation = rand.nextInt(2);
-            final String phone = "+7 800 355 35 35";
-            final int rentTime = rand.nextInt(2);
-            final String deliveryDate = "2020-06-06";
-            final String comment = faker.howIMetYourMother().catchPhrase();
             final String[] color = null;
             order = new Order(firstName, lastName, address, metroStation, phone, rentTime, deliveryDate, comment, color);
         }

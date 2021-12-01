@@ -1,4 +1,4 @@
-import io.qameta.allure.junit4.DisplayName;
+import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import static io.restassured.RestAssured.given;
 
@@ -6,7 +6,7 @@ public class GetOrderClient extends ApiClient {
 
     private String baseURI = "api/v1/orders";
 
-    @DisplayName("Получение заказов")
+    @Step("Получение заказов")
     public Response getOrders(int courierId) {
         return given()
                 .spec(getBaseSpec())

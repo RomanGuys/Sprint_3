@@ -3,7 +3,7 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.hamcrest.CoreMatchers.equalTo;
 
-
+@DisplayName("Тесты на создание курьера")
 public class CreateCourierTests {
     CourierLoginClient courierLoginClient;
     CourierCreateClient courierUsingPostMethods;

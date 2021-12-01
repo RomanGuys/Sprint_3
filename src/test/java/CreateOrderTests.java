@@ -1,18 +1,20 @@
 import io.qameta.allure.junit4.DisplayName;
+import io.restassured.response.Response;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import static org.hamcrest.CoreMatchers.notNullValue;
 
+@DisplayName("Тесты на создание заказа")
 @RunWith(Parameterized.class)
 public class CreateOrderTests {
 
 
     private final String color;
 
-    CreateOrderClient createOrderTestMethods;
-    CancelOrderClient cancelOrderTestMethods;
+    CreateOrderClient createOrderClient;
+    CancelOrderClient cancelOrderClient;
 
     public CreateOrderTests(String color) {
         this.color = color;
@@ -20,8 +22,8 @@ public class CreateOrderTests {
 
     @Before
     public void setUp() {
-        createOrderTestMethods = new CreateOrderClient();
-        cancelOrderTestMethods = new CancelOrderClient();
+        createOrderClient = new CreateOrderClient();
+        cancelOrderClient = new CancelOrderClient();
     }
 
     @Parameterized.Parameters
@@ -38,15 +40,15 @@ public class CreateOrderTests {
     @DisplayName("Позитивные тесты создания заказа")
     public void createOrderPositiveTest() {
         Order order = Order.getRandomOrder(color);
-        createOrderTestMethods.createOrder(order)
-                .then()
+        Response response = createOrderClient.createOrder(order);
+        response.then()
                 .assertThat()
                 .statusCode(201)
                 .and()
                 .body("track", notNullValue());
 //        Закомменчено, так как метод отмены не работает (отменяем созданные заказы)
-//            cancelOrderClient.cancelOrder(createOrderClient.createOrderResponse.path("track"));
-//            cancelOrderClient.cancelOrderResponse.then()
+//            cancelOrderClient.cancelOrder(response.path("track"))
+//                    .then()
 //                    .assertThat()
 //                    .statusCode(200);
     }

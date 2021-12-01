@@ -1,22 +1,18 @@
-import io.qameta.allure.junit4.DisplayName;
+import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import static io.restassured.RestAssured.given;
 
 public class CreateOrderClient extends ApiClient {
 
     String baseURI = "api/v1/orders";
-//    Response createOrderResponse;
 
-    @DisplayName("Создание заказа")
+    @Step("Создание заказа")
     public Response createOrder(Order order){
-        Response response = given()
-
+        return given()
                 .spec(getBaseSpec())
                 .and()
-                .body(order).log().all()
+                .body(order)
                 .when()
                 .post(baseURI);
-        System.out.println(response.body().asString());
-        return response;
     }
 }

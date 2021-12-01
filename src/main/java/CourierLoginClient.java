@@ -1,13 +1,12 @@
-import io.qameta.allure.junit4.DisplayName;
+import io.qameta.allure.Step;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import static io.restassured.RestAssured.given;
 
 public class CourierLoginClient extends ApiClient {
     private String baseURI = "api/v1/courier/login";
-//    Response courierLoginResponse;
 
-    @DisplayName("Логин курьера")
+    @Step("Логин курьера")
     public Response courierLogin(CourierCredentials courierCredentials){
         return given()
                 .spec(getBaseSpec())
@@ -17,7 +16,7 @@ public class CourierLoginClient extends ApiClient {
                 .post(baseURI);
     }
 
-    @DisplayName("Получение айди курьера")
+    @Step("Получение айди курьера")
     public int getCourierId(CourierCredentials courierCredentials){
         int courierId = 0;
         Response response = given()
