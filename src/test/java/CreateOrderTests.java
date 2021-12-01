@@ -10,8 +10,8 @@ public class CreateOrderTests {
 
     private final String orderData;
 
-    CreateOrderTestMethods createOrderTestMethods = new CreateOrderTestMethods();
-    CancelOrderTestMethods cancelOrderTestMethods = new CancelOrderTestMethods();
+    CreateOrderClient createOrderTestMethods = new CreateOrderClient();
+    CancelOrderClient cancelOrderTestMethods = new CancelOrderClient();
 
     public CreateOrderTests(String orderData) {
         this.orderData = orderData;

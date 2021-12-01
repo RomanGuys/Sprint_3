@@ -6,32 +6,32 @@ import java.util.Arrays;
 import static org.hamcrest.Matchers.*;
 
 public class LoginCourierTests {
-    CourierDeleteTestMethods courierDeleteTestMethods = new CourierDeleteTestMethods();
-    CourierLoginTestMethods courierLoginTestMethods = new CourierLoginTestMethods();
-    CommonTestMethods commonTestMethods = new CommonTestMethods();
+    CourierDeleteClient courierDeleteClient = new CourierDeleteClient();
+    CourierLoginClient courierLoginClient = new CourierLoginClient();
+    CourierCreateClient courierCreateClient = new CourierCreateClient();
 
 
     @Test
     @DisplayName("Позитивный тест логина курьера")
     public void courierLoginPositiveTest(){
-        courierLoginTestMethods.courierLogin(commonTestMethods.registerNewCourierAndReturnLoginPassword());
-        courierLoginTestMethods.courierLoginResponse.then()
+        courierLoginClient.courierLogin(courierCreateClient.registerNewCourierAndReturnLoginPassword());
+        courierLoginClient.courierLoginResponse.then()
                 .assertThat()
                 .statusCode(200)
                 .and()
                 .body("id", notNullValue());
-        int courierId = courierLoginTestMethods.courierLoginResponse.path("id");
-        courierDeleteTestMethods.deleteCourier(courierId);
+        int courierId = courierLoginClient.courierLoginResponse.path("id");
+        courierDeleteClient.deleteCourier(courierId);
 
     }
 
     @Test
     @DisplayName("Негативный тест без обязательного поля")
     public void courierLoginNegativeWOLogin(){
-        ArrayList<String> data = commonTestMethods.registerNewCourierAndReturnLoginPassword();
+        ArrayList<String> data = courierCreateClient.registerNewCourierAndReturnLoginPassword();
         ArrayList<String> loginData = new ArrayList<>(Arrays.asList("", data.get(1)));
-        courierLoginTestMethods.courierLogin(loginData);
-        courierLoginTestMethods.courierLoginResponse.then()
+        courierLoginClient.courierLogin(loginData);
+        courierLoginClient.courierLoginResponse.then()
                 .assertThat()
                 .statusCode(400)
                 .and()
@@ -41,10 +41,10 @@ public class LoginCourierTests {
     @Test
     @DisplayName("Логин и пароль не матчатся")
         public void courierNegativeLogPassNotMatchTest() {
-        ArrayList<String> data = commonTestMethods.registerNewCourierAndReturnLoginPassword();
+        ArrayList<String> data = courierCreateClient.registerNewCourierAndReturnLoginPassword();
         ArrayList<String> loginData = new ArrayList<>(Arrays.asList(data.get(0), "notyetapass"));
-        courierLoginTestMethods.courierLogin(loginData);
-        courierLoginTestMethods.courierLoginResponse.then()
+        courierLoginClient.courierLogin(loginData);
+        courierLoginClient.courierLoginResponse.then()
                 .assertThat()
                 .statusCode(404)
                 .and()
@@ -57,8 +57,8 @@ public class LoginCourierTests {
         String login = RandomStringUtils.randomAlphabetic(10);
         String pass = RandomStringUtils.randomAlphabetic(10);
         ArrayList<String> loginData = new ArrayList<>(Arrays.asList(login,pass));
-        courierLoginTestMethods.courierLogin(loginData);
-        courierLoginTestMethods.courierLoginResponse.then()
+        courierLoginClient.courierLogin(loginData);
+        courierLoginClient.courierLoginResponse.then()
                 .assertThat()
                 .statusCode(404)
                 .and()

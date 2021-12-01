@@ -1,7 +1,7 @@
 import io.restassured.response.Response;
 import static io.restassured.RestAssured.*;
 
-public class CancelOrderTestMethods {
+public class CancelOrderClient {
 
     Response cancelOrderResponse;
     private String baseURI = "https://qa-scooter.praktikum-services.ru/api/v1/orders/cancel";

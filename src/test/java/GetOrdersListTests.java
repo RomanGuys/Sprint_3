@@ -4,21 +4,22 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 
 public class GetOrdersListTests {
 
-    AcceptOrderTestMethods acceptOrderTestMethods = new AcceptOrderTestMethods();
-    CommonTestMethods commonTestMethods = new CommonTestMethods();
-    CreateOrderTestMethods createOrderTestMethods = new CreateOrderTestMethods();
-    GetOrderTestMethods getOrderTestMethods = new GetOrderTestMethods();
-    GetOrderByTrackTestMethods getOrderByTrackTestMethods = new GetOrderByTrackTestMethods();
+    AcceptOrderClient acceptOrderTestMethods = new AcceptOrderClient();
+    CourierLoginClient courierLoginClient = new CourierLoginClient();
+    CreateOrderClient createOrderClient = new CreateOrderClient();
+    GetOrderClient getOrderClient = new GetOrderClient();
+    GetOrderByTrackClient getOrderByTrackClient = new GetOrderByTrackClient();
+    CourierCreateClient courierCreateClient = new CourierCreateClient();
 
     @Test
     @DisplayName("Позитивный тест получения списка заказов")
     public void positiveGetOrdersListTest(){
-        createOrderTestMethods.createOrder(createOrderTestMethods.defaultOrderData);
-        int orderId = getOrderByTrackTestMethods.getOrderIdByTrack(createOrderTestMethods.createOrderResponse.body().path("track"));
-        int courierId = commonTestMethods.getCourierId(commonTestMethods.registerNewCourierAndReturnLoginPassword());
+        createOrderClient.createOrder(createOrderClient.defaultOrderData);
+        int orderId = getOrderByTrackClient.getOrderIdByTrack(createOrderClient.createOrderResponse.body().path("track"));
+        int courierId = courierLoginClient.getCourierId(courierCreateClient.registerNewCourierAndReturnLoginPassword());
         acceptOrderTestMethods.acceptOrder(orderId, courierId);
-        getOrderTestMethods.getOrders(courierId);
-        getOrderTestMethods.getOrderResponse.then()
+        getOrderClient.getOrders(courierId);
+        getOrderClient.getOrderResponse.then()
                 .assertThat()
                 .body("orders", notNullValue());
     }

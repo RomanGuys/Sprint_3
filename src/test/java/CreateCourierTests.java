@@ -8,9 +8,10 @@ import static org.hamcrest.CoreMatchers.equalTo;
 
 
 public class CreateCourierTests {
-    CommonTestMethods commonTestMethods = new CommonTestMethods();
-    CourierUsingPostMethods courierUsingPostMethods = new CourierUsingPostMethods();
-    CourierDeleteTestMethods courierDeleteTestMethods = new CourierDeleteTestMethods();
+    CourierCreateClient courierCreateClient = new CourierCreateClient();
+    CourierLoginClient courierLoginClient = new CourierLoginClient();
+    CourierCreateClient courierUsingPostMethods = new CourierCreateClient();
+    CourierDeleteClient courierDeleteClient = new CourierDeleteClient();
 
     @Test
     @DisplayName("Позивитные проверки создания курьера")
@@ -22,13 +23,13 @@ public class CreateCourierTests {
                 .statusCode(201)
                 .and()
                 .body("ok", equalTo(true));
-        courierDeleteTestMethods.deleteCourier(commonTestMethods.getCourierId(data));
+        courierDeleteClient.deleteCourier(courierLoginClient.getCourierId(data));
     }
 
     @Test
     @DisplayName("Негативка с одинаковым логином")
     public void createCourierDuplicateLoginTest(){
-        ArrayList<String> data = commonTestMethods.registerNewCourierAndReturnLoginPassword();
+        ArrayList<String> data = courierCreateClient.registerNewCourierAndReturnLoginPassword();
         data.add("elpasa");
         courierUsingPostMethods.courierAdd(data);
         courierUsingPostMethods.courierAddResponse.then()

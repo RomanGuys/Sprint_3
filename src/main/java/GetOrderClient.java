@@ -1,7 +1,7 @@
 import io.restassured.response.Response;
 import static io.restassured.RestAssured.given;
 
-public class GetOrderTestMethods {
+public class GetOrderClient {
 
     private String baseURI = "https://qa-scooter.praktikum-services.ru/api/v1/orders";
     Response getOrderResponse;
