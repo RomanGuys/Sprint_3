@@ -1,13 +1,13 @@
 import io.restassured.response.Response;
 import static io.restassured.RestAssured.given;
 
-public class GetOrderByTrackClient {
+public class GetOrderByTrackClient extends ApiClient {
 
-    private String baseURI = "https://qa-scooter.praktikum-services.ru/api/v1/orders/track";
+    private String baseURI = "api/v1/orders/track";
 
     public int getOrderIdByTrack(int trackId){
         Response response =  given()
-                .header("Content-type", "application/json")
+                .spec(getBaseSpec())
                 .and()
                 .queryParam("t",trackId)
                 .when()

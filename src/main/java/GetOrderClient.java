@@ -1,14 +1,14 @@
 import io.restassured.response.Response;
 import static io.restassured.RestAssured.given;
 
-public class GetOrderClient {
+public class GetOrderClient extends ApiClient {
 
-    private String baseURI = "https://qa-scooter.praktikum-services.ru/api/v1/orders";
+    private String baseURI = "api/v1/orders";
     Response getOrderResponse;
 
     public void getOrders(int courierId) {
         Response response = given()
-                .header("Content-type", "application/json")
+                .spec(getBaseSpec())
                 .and()
                 .queryParam("courierId", courierId)
                 .when()

@@ -2,14 +2,14 @@ import io.restassured.response.Response;
 
 import static io.restassured.RestAssured.given;
 
-public class CourierDeleteClient {
+public class CourierDeleteClient extends ApiClient {
 
-    private String baseURI = "https://qa-scooter.praktikum-services.ru/api/v1/courier/";
+    private String baseURI = "api/v1/courier/";
 
     public void deleteCourier(int id){
         System.out.println(id);
         Response response = given()
-                .header("Content-type", "application/json")
+                .spec(getBaseSpec())
                 .when()
                 .delete(baseURI + id);
     }

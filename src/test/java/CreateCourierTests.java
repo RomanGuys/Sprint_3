@@ -1,5 +1,6 @@
 import io.qameta.allure.junit4.DisplayName;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.Before;
 import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,30 +9,36 @@ import static org.hamcrest.CoreMatchers.equalTo;
 
 
 public class CreateCourierTests {
-    CourierCreateClient courierCreateClient = new CourierCreateClient();
-    CourierLoginClient courierLoginClient = new CourierLoginClient();
-    CourierCreateClient courierUsingPostMethods = new CourierCreateClient();
-    CourierDeleteClient courierDeleteClient = new CourierDeleteClient();
+    CourierLoginClient courierLoginClient;
+    CourierCreateClient courierUsingPostMethods;
+    CourierDeleteClient courierDeleteClient;
+
+    @Before
+    public void setUp(){
+        courierLoginClient = new CourierLoginClient();
+        courierUsingPostMethods = new CourierCreateClient();
+        courierDeleteClient = new CourierDeleteClient();
+    }
 
     @Test
     @DisplayName("Позивитные проверки создания курьера")
     public void createCourierPositiveTest(){
-        ArrayList<String> data = new ArrayList(Arrays.asList("testatest","glop","gaf"));
-        courierUsingPostMethods.courierAdd(data);
+        Courier courier = Courier.getRandom();
+        courierUsingPostMethods.courierAdd(courier);
         courierUsingPostMethods.courierAddResponse.then()
                 .assertThat()
                 .statusCode(201)
                 .and()
                 .body("ok", equalTo(true));
-        courierDeleteClient.deleteCourier(courierLoginClient.getCourierId(data));
+        courierDeleteClient.deleteCourier(courierLoginClient.getCourierId(courier));
     }
 
     @Test
     @DisplayName("Негативка с одинаковым логином")
     public void createCourierDuplicateLoginTest(){
-        ArrayList<String> data = courierCreateClient.registerNewCourierAndReturnLoginPassword();
-        data.add("elpasa");
-        courierUsingPostMethods.courierAdd(data);
+        Courier courier = Courier.getRandom();
+        courierUsingPostMethods.courierAdd(courier);
+        courierUsingPostMethods.courierAdd(courier);
         courierUsingPostMethods.courierAddResponse.then()
                 .assertThat()
                 .statusCode(409)
@@ -43,8 +50,9 @@ public class CreateCourierTests {
     @Test
     @DisplayName("Негативка создания курьера без обязательного поля(Логин)")
     public void createCourierWORequiredFieldLoginTest(){
-        ArrayList<String> data = new ArrayList<>(Arrays.asList("", "glop", "bandit"));
-        courierUsingPostMethods.courierAdd(data);
+        Courier courier = Courier.getRandomWOLogin();
+//        ArrayList<String> data = new ArrayList<>(Arrays.asList("", "glop", "bandit"));
+        courierUsingPostMethods.courierAdd(courier);
         courierUsingPostMethods.courierAddResponse.then()
                 .assertThat()
                 .statusCode(400)
@@ -55,9 +63,10 @@ public class CreateCourierTests {
     @Test
     @DisplayName("Негативка создания курьера без обязательного поля(Пароль)")
     public void createCourierWORequiredFieldPasswordTest(){
-        String randomLogin = RandomStringUtils.randomAlphabetic(10);
-        ArrayList<String> data = new ArrayList<>(Arrays.asList(randomLogin, "", "bandit"));
-        courierUsingPostMethods.courierAdd(data);
+        Courier courier = Courier.getRandomWOPass();
+//        String randomLogin = RandomStringUtils.randomAlphabetic(10);
+//        ArrayList<String> data = new ArrayList<>(Arrays.asList(randomLogin, "", "bandit"));
+        courierUsingPostMethods.courierAdd(courier);
         courierUsingPostMethods.courierAddResponse.then()
                 .assertThat()
                 .statusCode(400)
@@ -68,10 +77,11 @@ public class CreateCourierTests {
     @Test
     @DisplayName("Негативка создания курьера без обязательного поля(Имя)")
     public void createCourierWORequiredFieldNameTest(){
-        String randomLogin = RandomStringUtils.randomAlphabetic(10);
-        String randomPass = RandomStringUtils.randomAlphabetic(10);
-        ArrayList<String> data = new ArrayList<>(Arrays.asList(randomLogin, randomPass, ""));
-        courierUsingPostMethods.courierAdd(data);
+//        String randomLogin = RandomStringUtils.randomAlphabetic(10);
+//        String randomPass = RandomStringUtils.randomAlphabetic(10);
+//        ArrayList<String> data = new ArrayList<>(Arrays.asList(randomLogin, randomPass, ""));
+        Courier courier = Courier.getRandomWOName();
+        courierUsingPostMethods.courierAdd(courier);
         courierUsingPostMethods.courierAddResponse.then()
                 .assertThat()
                 .statusCode(400)

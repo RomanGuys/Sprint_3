@@ -1,14 +1,15 @@
 import io.restassured.response.Response;
 import static io.restassured.RestAssured.given;
 
-public class CreateOrderClient {
+public class CreateOrderClient extends ApiClient {
 
-    String baseURI = "https://qa-scooter.praktikum-services.ru/api/v1/orders";
+    String baseURI = "api/v1/orders";
     Response createOrderResponse;
 
     public void createOrder(String orderBody){
         Response response = given()
-                .header("Content-type", "application/json")
+
+                .spec(getBaseSpec())
                 .and()
                 .body(orderBody)
                 .when()

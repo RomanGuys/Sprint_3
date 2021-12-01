@@ -14,13 +14,15 @@ public class GetOrdersListTests {
     @Test
     @DisplayName("Позитивный тест получения списка заказов")
     public void positiveGetOrdersListTest(){
+        Courier courier = Courier.getRandom();
         createOrderClient.createOrder(createOrderClient.defaultOrderData);
         int orderId = getOrderByTrackClient.getOrderIdByTrack(createOrderClient.createOrderResponse.body().path("track"));
-        int courierId = courierLoginClient.getCourierId(courierCreateClient.registerNewCourierAndReturnLoginPassword());
+        int courierId = courierLoginClient.getCourierId(courier);
         acceptOrderTestMethods.acceptOrder(orderId, courierId);
         getOrderClient.getOrders(courierId);
         getOrderClient.getOrderResponse.then()
                 .assertThat()
+                .statusCode(200)
                 .body("orders", notNullValue());
     }
 }
